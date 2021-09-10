@@ -1,0 +1,388 @@
+:root {
+    --back-color: #fff;
+    --primary-color: #33BCCC;
+    --secondary-color: #336FCC;
+    --tertiary-color: #33CC90;
+    --text-color: #000;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--back-color);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.bg-primary {
+    background-color: var(--primary-color);
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--back-color);
+    border-bottom: solid 1px var(--primary-color);
+  }
+
+  .italic {
+    font-weight: normal;
+  }
+  
+  .navbar > ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    padding: 0.7rem 2rem;
+    color: var(--text-color);
+  }
+
+  .home .shop {
+    display:flex;
+    flex-direction: column;
+  }
+
+  .mainPhotoContainer {
+    position: relative;
+    width:100%;
+    border-bottom: solid 2px var(--back-color);
+  }
+
+  .mainPhotoContainer > img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .mainPhotoContainer > .btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--back-color);
+    padding: 15px 30px;
+    border-radius: 5px;
+    opacity: .95;
+    color: var(--text-color);
+    font-size: 27px;
+  }
+
+  .btn:hover {
+    background-color: var(--tertiary-color);
+  }
+
+  .photoGallery {
+    position: relative;
+    width: 100%;
+    height:auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items:center;
+  }
+  .photo {
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+    min-width: 200px;
+  }
+
+  .photoGallery > ul {
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    border:0px;
+  }
+
+  .photoGallery > ul > li {
+    position: relative;
+    width: 33%;
+    height: 300px;
+    border-left: solid 1px var(--back-color);
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .photoGallery > ul:first-child {
+    border-bottom: solid 1px var(--back-color);
+  }
+
+  .photoGallery > ul li:first-child {
+    border-left: solid 0px var(--back-color);
+  }
+
+  .photoGallery > ul > li:nth-child(2) {
+    width: 34%;
+  }
+/* maybe make it split across the center with margin on the left so put a box in here */
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 75px;
+    background-color: var(--back-color);
+
+  }
+
+  .socialMedia {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    flex-direction: row;
+    background-color: var(--back-color);
+  }
+
+  .productDescription {
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .productDescription > h2 {
+    text-align: center;
+    
+  }
+
+  .productDescription > div {
+    width: 70%;
+    text-align: center;
+  }
+
+  .products {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .products > .container {
+    display:flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid var(--back-color);
+  }
+
+  .products > .container > .rows {
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    background-color: var(--primary-color);
+    border-bottom: solid 1px var(--back-color);
+  }
+
+  .products > .container > .rows > .product {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 33%;
+    justify-content: flex-start;
+    height: 300px;
+    overflow: hidden;
+    border-left: solid 1px var(--back-color);
+  }
+
+  .products > .container > .rows > .product:first-child {
+    border-left: solid 0px var(--back-color);
+  }
+
+  .products > .container > .rows > .product > .productName {
+    color: var(--text-color);
+    text-align: center;
+  }
+
+  .products > .container > .rows > .product > .btn {
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    padding: 3px 12px;
+    opacity: 1;
+    color: var(--text-color);
+    background-color: var(--back-color);
+    border: 1px var(--text-color) solid;
+  }
+
+  .products > .container > .rows > .product:nth-child(2) {
+    width: 34%;
+  }
+
+  .products > .container > .rows > .product > .productPhotoContainer {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 250px;
+    overflow: hidden;
+  }
+
+  .products > .container > .rows > .product > .productPhotoContainer > .productPhoto {
+    min-width: 250px;
+    width: 100%;
+    height: auto;
+    min-height: 250px;
+  }
+
+  .products > .container > .rows > .product > .productPhotoContainer > .description {
+    min-width: 250px;
+    width: 100%;
+    height: auto;
+    min-height: 250px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: var(--back-color);
+  }
+
+  .cart {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .table {
+    width: 100%;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  
+  tr:first-child {
+    background-color: var(--primary-color);
+  }
+  
+  td, th {
+    border: 1px solid var(--back-color);
+    text-align: left;
+    padding: 8px;
+  }
+
+  #purchase {
+    width: 80%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: var(--primary-color);
+  }
+
+  #aboutUs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px var(--primary-color) solid;
+  }
+
+  #aboutUsHeader{
+    background-color: var(--primary-color);
+    width: 100%;
+    text-align: center;
+  }
+
+  #aboutUsDescription {
+    margin: 10px 0px;
+    width: 80%;
+    text-align: center;
+  }
+
+  #navigationBar {
+    display: flex;
+    border-bottom: rgb(145, 136, 136) 1px solid;
+    width:100%;
+    justify-content: center;
+    padding: 5px 0px;
+  }
+
+  #navigationBar > h1 {
+    text-align: center;
+    font-style: italic;
+    font-weight: normal;
+  }
+
+  #homePage {
+    background-color: grey;
+  }
+
+  .question {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  .questionBox {
+    padding: 40px;
+  }
+
+  .inputBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+  }
+
+  .inputBox > input {
+    padding:10px 40px;
+    font-size: 27px;
+  }
+
+  .inputBox > label {
+    font-size: 30px;
+  }
+
+  .questionBox > p {
+    font-size: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction:column;
+    text-align: center;
+  }
+
+  .submit {
+    background-color: #15EA37;
+    color: white;
+    border: 0px;
+    border-radius: 10px;
+  }
+
+  #productsCompleted {
+    margin-top: 15px;
+    background-color: lightblue;
+  }
+
+  #uploadPhoto {
+    width: 100%;
+    text-align-last: center;
+  }

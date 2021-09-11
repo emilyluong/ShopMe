@@ -1,27 +1,76 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import gallery1 from '../pictures/gallery/gallery1.jpg';
-import gallery2 from '../pictures/gallery/gallery2.jpg';
+import CartContext from '../context/cartContext';
 
 const Products = ({ products }) => {
+    const cartContext = useContext(CartContext);
+    const { addCart } = cartContext;
+
     const productList = [{
         name: "Freshly Baked Cupcakes",
         description: "A 12 pack of the most amazing freshly baked muffins",
         displayDescription: false
     }];
     
-    let [displayDescriptionValue, setDisplayDescriptionValue] = useState(false);
-    const name = "Freshly Baked Cupcakes";
-    const description = "A 12 pack of the most amazing freshly baked muffins";
+    let [displayDescriptionValue, setDisplayDescriptionValue] = useState(productList);
 
-    const displayDescription = (name, show) => {
-        setDisplayDescriptionValue(show);
+    const displayDescription =  (i, show) => {
+        setDisplayDescriptionValue(prevState => {
+            prevState[i].displayDescription = show;
+            return prevState;
+        });
     }
 
     return (
         <div className="products">
-            {
             <div className="container">
-                <div className="rows">
+                { productList.map((item, i) => (
+                    i % 3 == 0 && <div className="rows" key={i}>
+                    <div className="product" key={i}>
+                        <div className="productPhotoContainer" onMouseDown={() => displayDescription(i, true)} onMouseUp={() => displayDescription(i, false)}>
+                            {(displayDescriptionValue == undefined || !displayDescriptionValue) &&
+                                <img className='productPhoto' src={gallery1} alt={productList[i].description}/>
+                            }
+                            {displayDescriptionValue &&
+                                <div className="description">{productList[i].description}</div>
+                            }
+                        </div>
+                        <div className="productName">
+                            {productList[i].name}
+                        </div>
+                        <button className="btn" onClick={() => addCart(productList[i])}>{productList[i].cost}</button>
+                    </div>
+                    <div className="product" key={i+1}>
+                        <div className="productPhotoContainer" onMouseDown={() => displayDescription(i+1, true)} onMouseUp={() => displayDescription(i+1, false)}>
+                            {(displayDescriptionValue == undefined || !displayDescriptionValue) &&
+                                <img className='productPhoto' src={gallery1} alt={productList[i+1].description} />
+                            }
+                            {displayDescriptionValue &&
+                                <div className="description">{productList[i+1].description}</div>
+                            }
+                        </div>
+                        <div className="productName">
+                            {productList[i].name}
+                        </div>
+                        <button className="btn" onClick={() => addCart(productList[i+1])}>{productList[i].cost}</button>
+                    </div>
+                    <div className="product" key={i+2}>
+                        <div className="productPhotoContainer" onMouseDown={() => displayDescription(i+2, true)} onMouseUp={() => displayDescription(i+2, false)}>
+                            {(displayDescriptionValue == undefined || !displayDescriptionValue) &&
+                                <img className='productPhoto' src={gallery1} alt={productList[i+2].description} />
+                            }
+                            {displayDescriptionValue &&
+                                <div className="description">{productList[i+2].description}</div>
+                            }
+                        </div>
+                        <div className="productName">
+                            {productList[i+2].name}
+                        </div>
+                        <button className="btn" onClick={() => addCart(productList[i+2])}>{productList[i+2].cost}</button>
+                    </div>
+                </div>
+                ))}
+                {/* <div className="rows">
                     <div className="product">
                         <div className="productPhotoContainer" onMouseDown={() => displayDescription("Freshly Baked Cupcakes", true)} onMouseUp={() => displayDescription("Freshly Baked Cupcakes", false)}>
                             {!displayDescriptionValue &&
@@ -34,7 +83,11 @@ const Products = ({ products }) => {
                         <div className="productName">
                             Freshly Baked Cupcakes
                         </div>
-                        <button className="btn">Add To Cart</button>
+                        <button className="btn" onClick={() => addCart({name: 'Mocha Ice Cream',
+                                                                        description: 'Freshly made mocha icecream specially stored to keep it extremly fresh',
+                                                                        cost: 9.99,
+                                                                        quantity: 1
+                                                                        })}>Add To Cart</button>
                     </div>
                     <div className="product">
                         <div className="productPhotoContainer">
@@ -86,9 +139,8 @@ const Products = ({ products }) => {
                         </div>
                         <button className="btn">Add To Cart</button>
                     </div>
-                </div>
+                </div> */}
             </div>
-        }
         </div>
     )
 }

@@ -6,13 +6,13 @@ const Footer = () => {
             {/* <h1>Contact Us</h1> */}
             <div className="socialMedia">
                 <a href="www.google.com" >
-                    <i class="fa fa-facebook" />
+                    <i className="fa fa-facebook" />
                 </a>
                 <a href="www.google.com" >
-                    <i class="fa fa-instagram" />
+                    <i className="fa fa-instagram" />
                 </a>
                 <a href="www.google.com" >
-                    <i class="fa fa-twitter" />
+                    <i className="fa fa-twitter" />
                 </a>
             </div>
         </div>

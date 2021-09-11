@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import CartState from './context/cartState';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <CartState>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </CartState>
 
   </React.StrictMode>,
   document.getElementById('root')

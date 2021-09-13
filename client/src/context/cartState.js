@@ -14,6 +14,10 @@ const CartState = props => {
         dispatch({ type: 'ADD_CART', item });
     }
 
+    const clearCart = () => {
+        dispatch({ type: 'CLEAR_CART' });
+    }
+
     const setInfoJSON = (websiteInfo) => {
         dispatch({ type: 'SET_INFO_JSON', payload: websiteInfo });
     }
@@ -31,6 +35,7 @@ const CartState = props => {
                 addCart,
                 setInfoJSON,
                 toBase64,
+                clearCart,
                 websiteInfo: state.websiteInfo
             }}>
                 {props.children}

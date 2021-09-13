@@ -5,7 +5,7 @@ import PictureQuestion from './PictureQuestion';
 import ProductQuestion from './ProductQuestion';
 import TextBoxQuestion from './TextBoxQuestion';
 import axios from 'axios';
-const HomePage = () => {
+const HomePage = ({ history }) => {
     const [websiteInfo, setWebsiteInfo] = useState({ questionNumber: 1, gallery: [], products: [], productPhotos: [] });
 
     const infoUploaded = async () => {
@@ -35,15 +35,19 @@ const HomePage = () => {
                 'Content-Type': `multipart/form-data; boundary=${form_data._boundary}`
             }
         }
-        const res = await axios.post('/store', form_data, config);
-        console.log(res.data.messages);
+        try {
+            const res = await axios.post('/store', form_data, config);
+            history.push('/' + res.data.url_extension)
+        } catch (error){
+            console.log(error.message)
+        }
     }
 
-    const aboutUsExampleDescription = "We take dessert devliery to another level! Have the perfect desserts devilvered " +
-                                    "straight to your doorstep with a 100% customer satisfaction Garentee. " +
+    const aboutUsExampleDescription = "We take dessert delivery to another level! Have the perfect desserts delivered " +
+                                    "straight to your doorstep with a 100% customer satisfaction guarantee. " +
                                     "Frozen or freshly baked we supply the best desserts that money can buy. " +
                                     "Order online and have your order at your doorstep within 48 hours anywhere in Canada. " +
-                                    "All Orders are specially refridgerated to keep it as fresh as when it was first made.";
+                                    "All Orders are specially refrigerated to keep it as fresh as when it was first made.";
 
     return (
         <div className="homePage">

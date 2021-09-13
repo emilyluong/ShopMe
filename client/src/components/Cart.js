@@ -8,26 +8,8 @@ const Cart = () => {
     const cartContext = useContext(CartContext);
 
     //cart is the purchase Array
-    const { cart } = cartContext;
+    const { cart, clearCart } = cartContext;
 
-    const purchaseArray = [{
-        name: 'Mocha Ice Cream',
-        description: 'Freshly made mocha icecream specially stored to keep it extremly fresh',
-        cost: 9.99,
-        quantity: 1
-    },
-    {
-        name: 'Mocha Ice Cream',
-        description: 'Freshly made mocha icecream specially stored to keep it extremly fresh',
-        cost: 9.99,
-        quantity: 1
-    },
-    {
-        name: 'Mocha Ice Cream',
-        description: 'Freshly made mocha icecream specially stored to keep it extremly fresh',
-        cost: 9.99,
-        quantity: 1
-    }]
     return (
             <div>
             <Navbar/>
@@ -49,7 +31,7 @@ const Cart = () => {
                         <th>{cart.reduce((x, item) => x + (item.cost*item.quantity), 0).toFixed(2)}</th>
                     </tr>}
                     </table>
-                    <button id="purchase"><h2>Purchase</h2></button>
+                    <button id="purchase" onClick={clearCart}><h2>Purchase</h2></button>
             </div>
             <Footer />
         </div>

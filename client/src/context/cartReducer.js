@@ -10,6 +10,8 @@ export default (state, obj) => {
             }
             state.cart.push(obj.item);
             return state;
+        case "CLEAR_CART":
+            return {...state, cart: []}
         case "SET_INFO_JSON":
             return { ...state, websiteInfo: obj.payload }
         default: return state;

@@ -2,37 +2,34 @@ import React, { useState, useContext } from 'react'
 import gallery1 from '../pictures/gallery/gallery1.jpg';
 import CartContext from '../context/cartContext';
 
-const Products = ({ products }) => {
+const Products = ({ productList }) => {
     const cartContext = useContext(CartContext);
-    const { addCart } = cartContext;
-
-    const productList = [{
-        name: "Freshly Baked Cupcakes",
-        description: "A 12 pack of the most amazing freshly baked muffins",
-        displayDescription: false
-    }];
+    const { addCart, toBase64 } = cartContext;
     
-    let [displayDescriptionValue, setDisplayDescriptionValue] = useState(productList);
+    let [productListDisplay, setDisplayDescriptionValue] = useState(productList);
 
     const displayDescription =  (i, show) => {
         setDisplayDescriptionValue(prevState => {
-            prevState[i].displayDescription = show;
-            return prevState;
+            const productListUpdated = [...prevState];
+            productListUpdated[i].displayDescription = show;
+            console.log(productListUpdated);
+            return productListUpdated;
         });
     }
 
     return (
         <div className="products">
             <div className="container">
-                { productList.map((item, i) => (
+                {productList && productList.map((item, i) => (
                     i % 3 == 0 && <div className="rows" key={i}>
                     <div className="product" key={i}>
                         <div className="productPhotoContainer" onMouseDown={() => displayDescription(i, true)} onMouseUp={() => displayDescription(i, false)}>
-                            {(displayDescriptionValue == undefined || !displayDescriptionValue) &&
-                                <img className='productPhoto' src={gallery1} alt={productList[i].description}/>
+                            {(productListDisplay[i].displayDescription == undefined || !productListDisplay[i].displayDescription) &&
+                                <img className='productPhoto' src={`data:${productList[i].image.data.contentType};base64,${toBase64(productList[i].image.data.data)}`} alt={productList[i].description}/>
                             }
-                            {displayDescriptionValue &&
-                                <div className="description">{productList[i].description}</div>
+                            {console.log(productListDisplay[i].displayDescription)}
+                            {productListDisplay[i].displayDescription &&
+                                <div className="description">{productList[i].desc}</div>
                             }
                         </div>
                         <div className="productName">
@@ -40,34 +37,34 @@ const Products = ({ products }) => {
                         </div>
                         <button className="btn" onClick={() => addCart(productList[i])}>{productList[i].cost}</button>
                     </div>
-                    <div className="product" key={i+1}>
+                    {productList[i+1] && <div className="product" key={i+1}>
                         <div className="productPhotoContainer" onMouseDown={() => displayDescription(i+1, true)} onMouseUp={() => displayDescription(i+1, false)}>
-                            {(displayDescriptionValue == undefined || !displayDescriptionValue) &&
-                                <img className='productPhoto' src={gallery1} alt={productList[i+1].description} />
+                            {(productListDisplay[i+1].displayDescription == undefined || !productListDisplay[i+1].displayDescription) &&
+                                <img className='productPhoto' src={`data:${productList[i+1].image.data.contentType};base64,${toBase64(productList[i+1].image.data.data)}`} alt={productList[i+1].description} />
                             }
-                            {displayDescriptionValue &&
-                                <div className="description">{productList[i+1].description}</div>
+                            {productListDisplay[i+1].displayDescription &&
+                                <div className="description">{productList[i+1].desc}</div>
                             }
                         </div>
                         <div className="productName">
                             {productList[i].name}
                         </div>
                         <button className="btn" onClick={() => addCart(productList[i+1])}>{productList[i].cost}</button>
-                    </div>
-                    <div className="product" key={i+2}>
+                    </div>}
+                    {productList[i+2] && <div className="product" key={i+2}>
                         <div className="productPhotoContainer" onMouseDown={() => displayDescription(i+2, true)} onMouseUp={() => displayDescription(i+2, false)}>
-                            {(displayDescriptionValue == undefined || !displayDescriptionValue) &&
-                                <img className='productPhoto' src={gallery1} alt={productList[i+2].description} />
+                            {(productListDisplay[i+2].displayDescription == undefined || !productListDisplay[i+2].displayDescription) &&
+                                <img className='productPhoto' src={`data:${productList[i+2].image.data.contentType};base64,${toBase64(productList[i+2].image.data.data)}`} alt={productList[i+2].description} />
                             }
-                            {displayDescriptionValue &&
-                                <div className="description">{productList[i+2].description}</div>
+                            {productListDisplay[i+2].displayDescription &&
+                                <div className="description">{productList[i+2].desc}</div>
                             }
                         </div>
                         <div className="productName">
                             {productList[i+2].name}
                         </div>
                         <button className="btn" onClick={() => addCart(productList[i+2])}>{productList[i+2].cost}</button>
-                    </div>
+                    </div> }
                 </div>
                 ))}
                 {/* <div className="rows">

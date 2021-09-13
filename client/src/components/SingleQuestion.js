@@ -6,7 +6,8 @@ const SingleQuestion = ({ websiteInfo, question, placeholder, resultName, setWeb
     //prob also need to pass in the setState for websiteInfo
     const onSubmit = () => {
         const nextQuestion = websiteInfo.questionNumber += 1;
-        setWebsiteInfo({ ...websiteInfo, [resultName]: answer, questionNumber: nextQuestion });
+        if (resultName === "url_extension") setWebsiteInfo({ ...websiteInfo, [resultName]: answer.toLowerCase(), questionNumber: nextQuestion });
+        else setWebsiteInfo({ ...websiteInfo, [resultName]: answer, questionNumber: nextQuestion });
         console.log(websiteInfo);
     }
 

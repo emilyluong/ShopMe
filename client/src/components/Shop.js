@@ -1,19 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Products from '../components/Products';
+import CartContext from '../context/cartContext';
 
 const Shop = () => {
-    const productArray = [{
-        name: 'Mocha Ice Cream',
-        description: 'Freshly made mocha icecream specially stored to keep it extremly fresh',
-        cost: 9.99
-    }]; //Will be a prop eventually
+    const cartContext = useContext(CartContext);
+    const { websiteInfo } = cartContext;
 
     return (
         <div className="shop">
             <Navbar/>
-            <Products products={productArray}/>
+            <Products productList={websiteInfo.products}/>
             <Footer />
         </div>
     )

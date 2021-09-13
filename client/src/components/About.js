@@ -8,12 +8,12 @@ const About = () => {
     return (
         <div className="about">
             <Navbar/>
-            <div id="aboutUs">
+            {websiteInfo && websiteInfo.about && <div id="aboutUs">
                 <h2 id="aboutUsHeader">About Us</h2>
                 <div id="aboutUsDescription">
                     { websiteInfo.about }
                 </div>
-            </div>
+            </div>}
             <Footer />
         </div>
     )

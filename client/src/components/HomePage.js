@@ -3,11 +3,40 @@ import NavigationBar from './NavigationBar';
 import SingleQuestion from './SingleQuestion';
 import PictureQuestion from './PictureQuestion';
 import ProductQuestion from './ProductQuestion';
+import TextBoxQuestion from './TextBoxQuestion';
+import axios from 'axios';
 const HomePage = () => {
-    const [websiteInfo, setWebsiteInfo] = useState({ questionNumber: 1, gallery: [], products: [] });
+    const [websiteInfo, setWebsiteInfo] = useState({ questionNumber: 1, gallery: [], products: [], productPhotos: [] });
 
-    const infoUploaded = () => {
+    const infoUploaded = async () => {
         console.log(websiteInfo);
+        const form_data = new FormData();
+        for (const key in websiteInfo) {
+            if (key === "gallery" || key == "productPhotos") {
+                for (const photo of websiteInfo[key]) {
+                    form_data.append(key, photo);
+                }
+            } else if (key === "products") {
+                for (const productObj of websiteInfo[key]) {
+                    form_data.append(key, JSON.stringify(productObj));
+                }
+                form_data.append(key, "");
+            } else {
+                form_data.append(key, websiteInfo[key]);
+            }
+        }
+        // for (const key in form_data) {
+        //     console.log(key, form_data[key]);
+        // }
+        const config = {
+            headers: {
+                'accept': 'application/json',
+                'Accept-Language': 'en-US,en;q=0.8',
+                'Content-Type': `multipart/form-data; boundary=${form_data._boundary}`
+            }
+        }
+        const res = await axios.post('/store', form_data, config);
+        console.log(res.data.messages);
     }
 
     const aboutUsExampleDescription = "We take dessert devliery to another level! Have the perfect desserts devilvered " +
@@ -28,9 +57,9 @@ const HomePage = () => {
             { websiteInfo.questionNumber === 7 && <PictureQuestion setWebsiteInfo={setWebsiteInfo} websiteInfo={websiteInfo} question="Upload the picture you want to use as the picture fourth photo in your gallery (4/6)" resultName="gallery" /> }
             { websiteInfo.questionNumber === 8 && <PictureQuestion setWebsiteInfo={setWebsiteInfo} websiteInfo={websiteInfo} question="Upload the picture you want to use as the picture fifth photo in your gallery (5/6)" resultName="gallery" /> }
             { websiteInfo.questionNumber === 9 && <PictureQuestion setWebsiteInfo={setWebsiteInfo} websiteInfo={websiteInfo} question="Upload the picture you want to use as the picture sixth photo in your gallery (6/6)" resultName="gallery" /> }
-            { websiteInfo.questionNumber === 10 && <ProductQuestion setWebsiteInfo={setWebsiteInfo} question="Upload information about one of the products you wish to sell" resultName="products" infoUploaded={infoUploaded} /> }
-            { websiteInfo.questionNumber === 11 && <ProductQuestion setWebsiteInfo={setWebsiteInfo} question="Tell us about your company!" resultName="about" placeholder="aboutUsExampleDescription" /> }
-            { websiteInfo.questionNumber === 11 && <ProductQuestion setWebsiteInfo={setWebsiteInfo} question="What is your companies message?" resultName="message" placeholder="" /> }
+            { websiteInfo.questionNumber === 10 && <TextBoxQuestion setWebsiteInfo={setWebsiteInfo} websiteInfo={websiteInfo} question="Tell us about your company!" resultName="about" placeholder={aboutUsExampleDescription} /> }
+            { websiteInfo.questionNumber === 11 && <TextBoxQuestion setWebsiteInfo={setWebsiteInfo} websiteInfo={websiteInfo} question="What is your companies message?" resultName="message" placeholder="" /> }
+            { websiteInfo.questionNumber === 12 && <ProductQuestion setWebsiteInfo={setWebsiteInfo} question="Upload information about one of the products you wish to sell" resultName="products" infoUploaded={infoUploaded} /> }
         </div>
     )
 }

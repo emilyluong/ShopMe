@@ -6,7 +6,7 @@ const TextBoxQuestion = ({ websiteInfo, question, placeholder, resultName, setWe
     //prob also need to pass in the setState for websiteInfo
     const onSubmit = () => {
         const nextQuestion = websiteInfo.questionNumber += 1;
-        setWebsiteInfo({ ...websiteInfo, [resultName]: answer, questionNumber: nextQuestion });
+        setWebsiteInfo(prevState => { return { ...prevState, [resultName]: answer, questionNumber: nextQuestion }});
     }
 
     const onChange = (e) => {
@@ -19,7 +19,7 @@ const TextBoxQuestion = ({ websiteInfo, question, placeholder, resultName, setWe
                 <p>{question}</p>
             </div>
             <form className="inputBox" onSubmit={onSubmit}>
-                <textarea onChange={onChange} value={answer} placeholder={placeholder} rows="4" cols="50"/><br />
+                <textarea onChange={onChange} value={answer} placeholder={placeholder} rows="8" cols="60"/><br />
                 <input className="submit" type="submit" value="Submit" />
             </form>
         </div>

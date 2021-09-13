@@ -38,16 +38,16 @@ const Cart = () => {
                         <th>Quantity</th>
                         <th>Total</th>
                     </tr>
-                    {purchaseArray.map((item, i) => (<tr key={i}>
+                    {cart && cart.map((item, i) => (<tr key={i}>
                         <td>{item.name}</td>
                         <td>{item.quantity}</td>
                         <td>{item.cost}</td>
                     </tr>))}
-                    <tr>
+                    {cart && <tr>
                         <th style={{"background-color": "white"}}></th>
                         <th></th>
-                        <th>100</th>
-                    </tr>
+                        <th>{cart.reduce((x, item) => x + (item.cost*item.quantity), 0).toFixed(2)}</th>
+                    </tr>}
                     </table>
                     <button id="purchase"><h2>Purchase</h2></button>
             </div>

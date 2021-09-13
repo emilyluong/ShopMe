@@ -18,12 +18,19 @@ const CartState = props => {
         dispatch({ type: 'SET_INFO_JSON', payload: websiteInfo });
     }
 
+    const toBase64 = (arr) => {
+        return btoa(
+            arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
+         );
+     }
+
     return (
         <CartContext.Provider
             value={{
                 cart: state.cart,
                 addCart,
                 setInfoJSON,
+                toBase64,
                 websiteInfo: state.websiteInfo
             }}>
                 {props.children}

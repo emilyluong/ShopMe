@@ -6,9 +6,13 @@ const ProductQuestion = ({ question, setWebsiteInfo, infoUploaded }) => {
     const onSubmit = () => {
         const { image, name, cost, desc } = productInfo;
         if (image != null && name != "" && cost != "" && desc != "") {
-            console.log(productInfo);
+            const productInformation = {
+                name: productInfo.name,
+                cost: productInfo.cost,
+                desc: productInfo.desc
+            }
             setWebsiteInfo(websiteInfo => {
-                return { ...websiteInfo, products: [...websiteInfo.products, productInfo]}
+                return { ...websiteInfo, products: [...websiteInfo.products, productInformation], productPhotos: [...websiteInfo.productPhotos, productInfo.image]}
             });
             setProductInfo({name: "", cost: "", desc: "", image: null});
         }

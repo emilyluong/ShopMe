@@ -4,9 +4,12 @@ const TextBoxQuestion = ({ websiteInfo, question, placeholder, resultName, setWe
     const [answer, setAnswer] = useState("");
     
     //prob also need to pass in the setState for websiteInfo
-    const onSubmit = () => {
-        const nextQuestion = websiteInfo.questionNumber += 1;
-        setWebsiteInfo(prevState => { return { ...prevState, [resultName]: answer, questionNumber: nextQuestion }});
+    const onSubmit = (e) => {
+        e.preventDefault();
+        if (answer !== null && answer !== "") {
+            const nextQuestion = websiteInfo.questionNumber += 1;
+            setWebsiteInfo(prevState => { return { ...prevState, [resultName]: answer, questionNumber: nextQuestion }});
+        }
     }
 
     const onChange = (e) => {

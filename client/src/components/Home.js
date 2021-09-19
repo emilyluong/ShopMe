@@ -17,7 +17,6 @@ const Home = ({ history }) => {
         } else if (url_extension !== "shop" && url_extension !== "cart" && url_extension !== "about" && url_extension !== "create") {
             if (!websiteInfo || url_extension !== websiteInfo.url_extension){
                 const websiteInformation = await axios.get('/store/' + url_extension);
-                console.log(websiteInformation.data.websiteInfo);
                 //arr.reduce((data, byte) => data + String.fromCharCode(byte), '');
                 setInfoJSON(websiteInformation.data.websiteInfo);
             }
@@ -30,7 +29,6 @@ const Home = ({ history }) => {
             <Navbar name={websiteInfo.site_name}/>
             <div className="mainPhotoContainer">
                 <img src={`data:${websiteInfo.main_photo.data.contentType};base64,${toBase64(websiteInfo.main_photo.data.data)}`} alt="Advertisement" />
-                {console.log(toBase64(websiteInfo.main_photo.data.data))}
                 <button className='btn'>Shop Now</button>
             </div>
             <div className="productDescription">

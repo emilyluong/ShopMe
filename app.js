@@ -14,7 +14,6 @@ const connectDB = async () => {
           useFindAndModify: false,
           useCreateIndex: true
           });
-      console.log("Connected to MongoDB...");
   } catch (error) {
       console.log(error.message);
       process.exit(1);
@@ -22,7 +21,7 @@ const connectDB = async () => {
 }
 connectDB();
 
-const port = 3000
+const port = 5000
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!')

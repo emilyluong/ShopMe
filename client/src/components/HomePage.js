@@ -9,7 +9,6 @@ const HomePage = ({ history }) => {
     const [websiteInfo, setWebsiteInfo] = useState({ questionNumber: 1, gallery: [], products: [], productPhotos: [] });
 
     const infoUploaded = async () => {
-        console.log(websiteInfo);
         const form_data = new FormData();
         for (const key in websiteInfo) {
             if (key === "gallery" || key == "productPhotos") {
@@ -25,9 +24,7 @@ const HomePage = ({ history }) => {
                 form_data.append(key, websiteInfo[key]);
             }
         }
-        // for (const key in form_data) {
-        //     console.log(key, form_data[key]);
-        // }
+
         const config = {
             headers: {
                 'accept': 'application/json',

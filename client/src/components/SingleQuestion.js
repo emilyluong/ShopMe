@@ -4,11 +4,13 @@ const SingleQuestion = ({ websiteInfo, question, placeholder, resultName, setWeb
     const [answer, setAnswer] = useState("");
     
     //prob also need to pass in the setState for websiteInfo
-    const onSubmit = () => {
-        const nextQuestion = websiteInfo.questionNumber += 1;
-        if (resultName === "url_extension") setWebsiteInfo({ ...websiteInfo, [resultName]: answer.toLowerCase(), questionNumber: nextQuestion });
-        else setWebsiteInfo({ ...websiteInfo, [resultName]: answer, questionNumber: nextQuestion });
-        console.log(websiteInfo);
+    const onSubmit = (e) => {
+        e.preventDefault();
+        if (answer !== null && answer !== ""){
+            const nextQuestion = websiteInfo.questionNumber += 1;
+            if (resultName === "url_extension") setWebsiteInfo({ ...websiteInfo, [resultName]: answer.toLowerCase(), questionNumber: nextQuestion });
+            else setWebsiteInfo({ ...websiteInfo, [resultName]: answer, questionNumber: nextQuestion });
+        }
     }
 
     const onChange = (e) => {

@@ -12,7 +12,6 @@ const Products = ({ productList }) => {
         setDisplayDescriptionValue(prevState => {
             const productListUpdated = [...prevState];
             productListUpdated[i].displayDescription = show;
-            console.log(productListUpdated);
             return productListUpdated;
         });
     }
@@ -27,7 +26,6 @@ const Products = ({ productList }) => {
                             {(productListDisplay[i].displayDescription == undefined || !productListDisplay[i].displayDescription) &&
                                 <img className='productPhoto' src={`data:${productList[i].image.data.contentType};base64,${toBase64(productList[i].image.data.data)}`} alt={productList[i].description}/>
                             }
-                            {console.log(productListDisplay[i].displayDescription)}
                             {productListDisplay[i].displayDescription &&
                                 <div className="description">{productList[i].desc}</div>
                             }

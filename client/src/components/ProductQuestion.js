@@ -19,7 +19,6 @@ const ProductQuestion = ({ question, setWebsiteInfo, infoUploaded }) => {
     }
 
     const onChange = (e) => {
-        console.log(productInfo);
         setProductInfo(prevState => {
             if (e.target.name === 'image') return { ...prevState, [e.target.name]: e.target.files[0] }
             else return { ...prevState, [e.target.name]: e.target.value }

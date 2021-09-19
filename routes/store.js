@@ -1,70 +1,89 @@
 const express = require('express');
 const router = express.Router();
 const Store = require('../models/Store');
+const Image = require('../models/Image');
+const Product = require('../models/Product');
 const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 // set storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'uploads')
+      cb(null, path.resolve(__dirname, 'uploads'))
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now())
+      cb(null, file.originalname)
     }
   })
    
 const upload = multer({ storage: storage })
 
-// router.post('/uploadImage', upload.single('image'), (req, res, next) => {
- 
-//     var obj = {
-//         name: req.body.name,
-//         desc: req.body.desc,
-//         img: {
-//             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-//             contentType: 'image/png'
-//         }
-//     }
-//     imgModel.create(obj, (err, item) => {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             // item.save();
-//             res.redirect('/');
-//         }
-//     });
-// });
-
 // @route POST /store
 // @access Private
 // @desc Create a store
-router.post('/', upload.single('main_photo'), upload.array('gallery', 6), async (req, res) => {
-    console.log(req.body);
+router.post('/', upload.fields([
+    {name: 'main_photo', maxCount: 1}, 
+    {name: 'gallery', maxCount: 6},
+    {name: 'productPhotos'}]),
+    async (req, res) => {
     try {
-
-        const galleryInfo = []
-        for (let i = 0; i < 6; i++) {
-            gallery.push({
-                data: fs.readFileSync(path.join('./uploads/' + req.body.gallery[i].name)),
-                contentType: req.body.gallery[i].type
+        // Main photo
+        const main_photo = new Image({
+            data: fs.readFileSync(req.files.main_photo[0].path),
+            contentType: req.files.main_photo[0].mimetype
+        })
+        await main_photo.save();
+        
+        // Product
+        const productPhotos = req.files.productPhotos
+        const productIds = [];
+        for (let i = 0; i < productPhotos.length; i++) {            
+            let productPhoto = new Image({
+                data: fs.readFileSync(req.files.productPhotos[i].path),
+                contentType: req.files.productPhotos[i].mimetype
             })
+            await productPhoto.save();
+
+            const parseJSONProduct = JSON.parse(req.body.products[i])
+
+            let product = new Product({
+                name: parseJSONProduct.name,
+                cost: parseJSONProduct.cost,
+                desc: parseJSONProduct.desc,
+                image: productPhoto._id
+            })
+
+            // Push to array of product ids
+            productIds.push(product._id)
+            await product.save();
+        } 
+
+        // Gallery
+        const galleryIds = [];
+        for (let i = 0; i < req.files.gallery.length; i++) {
+            let galleryImage = new Image({
+                data: fs.readFileSync(req.files.gallery[i].path),
+                contentType: req.files.gallery[i].mimetype
+            })
+
+            galleryIds.push(galleryImage._id);
+            await galleryImage.save();
         }
 
         const store = new Store({
             site_name: req.body.site_name,
             url_extension: req.body.url_extension,
-            main_photo: {
-                data: fs.readFileSync(path.join('./uploads/' + req.body.main_photo.name)),
-                contentType: req.body.main_photo.type
-            },
-            gallery: galleryInfo
-        });
+            about: req.body.about,
+            message: req.body.message,
+            main_photo: main_photo._id,
+            products: productIds,
+            gallery: galleryIds
+        })
         await store.save();
 
         return res.status(200).json({messages: 'Create Store Success'});
     } catch (error) {
-        console.log(error.message);
         return res.status(500).json({messages: "Server error"});
     }
 })
@@ -74,12 +93,41 @@ router.post('/', upload.single('main_photo'), upload.array('gallery', 6), async 
 // @desc Get a store
 router.get('/:urlExt', async (req, res) => {
     try {
-        const url_ext = req.params.urlExt;
-        const websiteJSON = Store.find({url_extension: url_ext});
+        const websiteInfo = await Store.findOne({url_extension: req.params.urlExt}).lean();
 
-        return res.status(200).json({WebsiteInfo: websiteJSON});
+        // Main photo
+        const main_photo = await Image.findOne({_id: websiteInfo.main_photo});
+        websiteInfo.main_photo = main_photo;
+        
+        // Product 
+        const products = []
+        for (let i = 0; i < websiteInfo.products.length; i++) {
+            const product = await Product.findOne({_id: websiteInfo.products[i]}).lean();
+
+            products.push(product);
+        }
+        
+        const productImage = []
+        for (let i = 0; i < products.length; i++) {
+            const image = await Image.findOne({_id: products[i].image._id});
+            productImage.push(image)
+        }
+        
+        for (let i = 0; i < products.length; i++) {
+            products[i].image = productImage[i]
+        }
+        websiteInfo.products = products;
+
+        // Gallery
+        const galleryImage = []
+        for (let i = 0; i < websiteInfo.gallery.length; i++) {
+            const image = await Image.findOne({_id: websiteInfo.gallery[i]._id});
+            galleryImage.push(image)
+        }
+        websiteInfo.gallery = galleryImage;
+
+        return res.status(200).send({websiteInfo: websiteInfo});
     } catch (error) {
-        console.log(error.message);
         return res.status(500).json({messages: "Server error"});
     }
 })

@@ -82,6 +82,17 @@ router.post('/', upload.fields([
         })
         await store.save();
 
+        const directory = path.resolve(__dirname, 'uploads');
+
+        fs.readdir(directory, (err, files) => {
+            if (err) throw err;
+            for (const file of files) {
+                fs.unlink(path.join(directory, file), err => {
+                if (err) throw err;
+                });
+            }
+        });
+
         return res.status(200).json({messages: 'Create Store Success'});
     } catch (error) {
         return res.status(500).json({messages: "Server error"});
@@ -128,7 +139,7 @@ router.get('/:urlExt', async (req, res) => {
 
         return res.status(200).send({websiteInfo: websiteInfo});
     } catch (error) {
-        return res.status(500).json({messages: "Server error"});
+        return res.status(500).json({messages: "Server get error"});
     }
 })
 

@@ -33,8 +33,8 @@ const HomePage = ({ history }) => {
             }
         }
         try {
-            const res = await axios.post('/store', form_data, config);
-            history.push('/' + res.data.url_extension)
+            await axios.post('/store', form_data, config);
+            history.push('/' + websiteInfo.url_extension);
         } catch (error){
             console.log(error.message)
         }

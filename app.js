@@ -4,6 +4,7 @@ const app = express()
 //can use dotenv to hardcode process.env variables if you don't want to give infromation away such a DB_Url
 const mongoose = require('mongoose')
 require('dotenv').config();
+const path = require('path');
 
 
 const connectDB = async () => {
@@ -21,18 +22,24 @@ const connectDB = async () => {
 }
 connectDB();
 
-const port = 5000
+app.use(express.json({ extended: false }));
+app.use('/store', require('./routes/store'));
 
-app.get('/', (req, res) => {
-  res.status(200).send('Hello World!')
-})
+
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
-
-app.use(express.json({ extended: false }));
-app.use('/store', require('./routes/store'))
 
 /**
  * Create a mongoose schema that matches the json of the frontend to store the website information.

@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react'
-import gallery1 from '../pictures/gallery/gallery1.jpg';
 import CartContext from '../context/cartContext';
 
 const Products = ({ productList }) => {
